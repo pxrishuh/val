@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>For Natasha 💘</title>
 
   <style>
@@ -11,15 +11,23 @@
       --bg2:#fff0c9;
       --bg3:#c9f3ff;
       --ink:#2b1b2b;
+      --muted: rgba(0,0,0,0.70);
+
       --pink:#ff4fa3;
       --rose:#ff2f7d;
       --purple:#7b3ff2;
-      --cream:#fff7ee;
+      --aqua:#00b4ff;
+
       --card:#ffffff;
-      --shadow: 0 18px 0 rgba(0,0,0,0.08), 0 28px 55px rgba(0,0,0,0.18);
-      --stroke: rgba(0,0,0,0.15);
+      --cream:#fff7ee;
+
+      --shadow: 0 16px 0 rgba(0,0,0,0.08), 0 28px 60px rgba(0,0,0,0.18);
+      --stroke: rgba(0,0,0,0.16);
+      --stroke2: rgba(0,0,0,0.12);
+
       --radius: 26px;
       --ease: cubic-bezier(.2,.85,.2,1);
+
       --font: ui-rounded, "Comic Sans MS", "Trebuchet MS", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
     }
 
@@ -35,9 +43,10 @@
         radial-gradient(900px 700px at 85% 20%, rgba(123,63,242,0.20), transparent 60%),
         radial-gradient(900px 700px at 50% 100%, rgba(0,180,255,0.18), transparent 60%),
         linear-gradient(180deg, var(--bg1), var(--bg2));
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     }
 
-    /* Cute doodle pattern overlay */
+    /* Cute dotted doodle overlay */
     body::before{
       content:"";
       position:fixed; inset:0;
@@ -50,65 +59,99 @@
       z-index:0;
     }
 
-    /* Floating sticker hearts in corners */
+    /* Sticker corners */
     .sticker{
       position: fixed;
       z-index: 1;
       filter: drop-shadow(0 12px 0 rgba(0,0,0,0.08)) drop-shadow(0 18px 30px rgba(0,0,0,0.18));
-      transform: rotate(-10deg);
-      animation: floaty 3.6s var(--ease) infinite;
       user-select:none;
       pointer-events:none;
+      animation: floaty 3.6s var(--ease) infinite;
+      font-size: 40px;
     }
-    .sticker.s1{ left: 18px; top: 16px; font-size: 42px; }
-    .sticker.s2{ right: 18px; top: 16px; font-size: 42px; transform: rotate(12deg); animation-delay: .4s; }
-    .sticker.s3{ left: 18px; bottom: 16px; font-size: 42px; transform: rotate(8deg); animation-delay: .8s; }
-    .sticker.s4{ right: 18px; bottom: 16px; font-size: 42px; transform: rotate(-8deg); animation-delay: 1.2s; }
+    .sticker.s1{ left: 12px; top: 10px; transform: rotate(-12deg); }
+    .sticker.s2{ right: 12px; top: 10px; transform: rotate(10deg); animation-delay: .4s; }
+    .sticker.s3{ left: 12px; bottom: 10px; transform: rotate(8deg); animation-delay: .8s; }
+    .sticker.s4{ right: 12px; bottom: 10px; transform: rotate(-8deg); animation-delay: 1.2s; }
 
     @keyframes floaty{
-      0%,100%{ transform: translateY(0) rotate(var(--rot, -10deg)); }
-      50%{ transform: translateY(-8px) rotate(var(--rot, -10deg)); }
+      0%,100%{ transform: translateY(0) rotate(var(--r, 0deg)); }
+      50%{ transform: translateY(-8px) rotate(var(--r, 0deg)); }
     }
 
-    /* Canvas layers for hearts + sparkles */
+    /* Canvas layers */
     .layer{
       position:fixed; inset:0;
       pointer-events:none;
       z-index:2;
     }
 
+    /* Top music banner */
+    .topBanner{
+      position: fixed;
+      left: 12px;
+      right: 12px;
+      top: 12px;
+      z-index: 10;
+      display:none;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 12px 12px;
+      border-radius: 999px;
+      background: #fff;
+      border: 3px solid var(--stroke);
+      box-shadow: 0 14px 0 rgba(0,0,0,0.08), 0 20px 40px rgba(0,0,0,0.12);
+    }
+    .topBanner.show{ display:flex; }
+    .topBanner .msg{
+      font-weight: 1000;
+      font-size: 13.5px;
+      color: rgba(0,0,0,0.78);
+      line-height: 1.2;
+    }
+    .topBanner button{
+      min-width:auto;
+      padding: 10px 12px;
+      font-weight: 1100;
+      border-radius: 999px;
+      border: 3px solid var(--stroke);
+      background: linear-gradient(180deg, #ff79bd, #ff2f7d);
+      color: #fff;
+      box-shadow: 0 10px 0 rgba(0,0,0,0.08);
+      cursor:pointer;
+    }
+    .topBanner button:active{ transform: translateY(3px); box-shadow: 0 7px 0 rgba(0,0,0,0.08); }
+
     .wrap{
       position:relative;
       z-index:3;
       min-height:100%;
       display:flex;
-      align-items:center;
+      align-items:flex-start;
       justify-content:center;
-      padding: 28px 16px 52px;
+      padding: 72px 16px 72px; /* extra top padding for banner */
     }
 
     .shell{
-      width:min(980px, 100%);
+      width:min(1020px, 100%);
       display:grid;
-      grid-template-columns: 1.1fr .9fr;
+      grid-template-columns: 1.05fr .95fr;
       gap: 18px;
       align-items:stretch;
     }
-
-    @media (max-width: 920px){
+    @media (max-width: 980px){
       .shell{ grid-template-columns: 1fr; }
     }
 
     .card{
       background: var(--card);
-      border: 3px solid rgba(0,0,0,0.16);
+      border: 3px solid var(--stroke);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       position:relative;
       overflow:hidden;
     }
-
-    /* Cartoony highlight stripe */
     .card::after{
       content:"";
       position:absolute;
@@ -117,11 +160,10 @@
       transform: rotate(-10deg);
       pointer-events:none;
     }
-
     .card > *{ position:relative; z-index:1; }
 
     .left{ padding: 22px 22px 18px; }
-    .right{ padding: 18px; display:flex; flex-direction:column; gap: 12px; justify-content:space-between; }
+    .right{ padding: 18px; display:flex; flex-direction:column; gap: 14px; justify-content:space-between; }
 
     .badge{
       display:inline-flex;
@@ -129,10 +171,10 @@
       gap:8px;
       padding: 10px 12px;
       border-radius: 999px;
-      border: 2px solid rgba(0,0,0,0.16);
+      border: 2px solid var(--stroke);
       background: #fff7ff;
       width: fit-content;
-      font-weight: 800;
+      font-weight: 1000;
       letter-spacing: .2px;
     }
     .badge .dot{
@@ -143,32 +185,36 @@
 
     h1{
       margin: 14px 0 10px;
-      font-size: clamp(34px, 4.2vw, 54px);
+      font-size: clamp(32px, 4.2vw, 52px);
       line-height: 1.03;
       letter-spacing: -0.6px;
     }
-
     .subtitle{
       margin: 0 0 14px;
       font-size: 15.5px;
       line-height: 1.5;
-      color: rgba(0,0,0,0.72);
+      color: var(--muted);
+      font-weight: 700;
     }
 
+    /* Letter / typewriter */
     .letterBox{
       margin-top: 12px;
       background: var(--cream);
-      border: 3px dashed rgba(0,0,0,0.18);
+      border: 3px dashed rgba(0,0,0,0.20);
       border-radius: 20px;
       padding: 14px 14px;
       box-shadow: 0 10px 0 rgba(0,0,0,0.07);
     }
     .type{
-      font-weight: 800;
+      font-weight: 950;
       font-size: 15px;
+      color: rgba(0,0,0,0.82);
       border-right: 2px solid rgba(0,0,0,0.35);
       padding-right: 2px;
       animation: caret 1.05s steps(1) infinite;
+      display:inline-block;
+      min-height: 20px;
     }
     @keyframes caret{ 50%{ border-right-color: transparent; } }
 
@@ -184,6 +230,7 @@
       opacity:.6;
     }
 
+    /* Polaroid photos */
     .photos{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
@@ -193,67 +240,109 @@
       .photos{ grid-template-columns: repeat(2, 1fr); }
     }
 
-    .photo{
-      aspect-ratio: 1 / 1;
+    .polaroid{
+      background: #fff;
+      border: 3px solid var(--stroke);
       border-radius: 18px;
-      overflow:hidden;
-      position:relative;
-      border: 3px solid rgba(0,0,0,0.16);
-      background: linear-gradient(180deg, #ffe6f3, #fff7ea);
       box-shadow: 0 14px 0 rgba(0,0,0,0.07);
+      overflow:hidden;
       transform: rotate(var(--r, 0deg));
       transition: transform .2s var(--ease);
+      position:relative;
     }
-    .photo:hover{ transform: rotate(var(--r, 0deg)) translateY(-2px); }
+    .polaroid:active{ transform: rotate(var(--r, 0deg)) scale(0.99); }
 
-    .photo img{
+    .polaroid .tape{
+      position:absolute;
+      left: 50%;
+      top: -10px;
+      transform: translateX(-50%) rotate(-4deg);
+      width: 64%;
+      height: 22px;
+      background: rgba(255,240,201,0.9);
+      border: 2px solid rgba(0,0,0,0.14);
+      border-radius: 10px;
+      box-shadow: 0 8px 0 rgba(0,0,0,0.06);
+      z-index:2;
+    }
+
+    .polaroid img{
       width:100%;
-      height:100%;
+      height: 155px;
       object-fit:cover;
       display:block;
-      opacity:1;
+      background: linear-gradient(180deg, #ffe6f3, #fff7ea);
     }
-
-    .photo .label{
-      position:absolute;
-      left: 10px;
-      bottom: 10px;
+    .polaroid .cap{
+      padding: 10px 10px 12px;
+      font-weight: 1000;
+      color: rgba(0,0,0,0.70);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 8px;
+    }
+    .pill{
       font-size: 12px;
-      font-weight: 900;
-      background: rgba(255,255,255,0.85);
-      border: 2px solid rgba(0,0,0,0.14);
+      font-weight: 1000;
       padding: 6px 10px;
       border-radius: 999px;
-      box-shadow: 0 8px 0 rgba(0,0,0,0.06);
+      border: 2px solid var(--stroke2);
+      background: #fff7ff;
+      box-shadow: 0 8px 0 rgba(0,0,0,0.05);
+      white-space: nowrap;
     }
 
-    .panelTitle{
+    /* Cute lists / notes */
+    .sectionTitle{
       margin: 0 0 8px;
       font-size: 18px;
-      font-weight: 900;
+      font-weight: 1100;
     }
-    .panelText{
+    .text{
       margin:0;
-      color: rgba(0,0,0,0.72);
-      line-height: 1.5;
-      font-size: 14.5px;
-      font-weight: 650;
+      color: var(--muted);
+      font-weight: 750;
+      line-height: 1.55;
+      font-size: 14.6px;
     }
 
+    .miniGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    @media (max-width: 520px){
+      .miniGrid{ grid-template-columns: 1fr; }
+    }
+
+    .miniCard{
+      background: #fff;
+      border: 3px solid var(--stroke2);
+      border-radius: 20px;
+      padding: 12px 12px;
+      box-shadow: 0 12px 0 rgba(0,0,0,0.06);
+    }
+    .miniCard .kicker{
+      font-weight: 1100;
+      margin-bottom: 6px;
+    }
+
+    /* Question */
     .question{
-      margin-top: 10px;
       padding: 14px 14px;
       border-radius: 22px;
-      border: 3px solid rgba(0,0,0,0.16);
+      border: 3px solid var(--stroke);
       background: #ffffff;
       box-shadow: 0 16px 0 rgba(0,0,0,0.07);
     }
-
     .question h2{
       margin: 0 0 10px;
-      font-size: clamp(22px, 2.5vw, 30px);
+      font-size: clamp(22px, 2.6vw, 30px);
       line-height: 1.1;
       letter-spacing: -0.3px;
+      font-weight: 1200;
     }
 
     .buttons{
@@ -262,26 +351,28 @@
       flex-wrap:wrap;
       margin-top: 10px;
       position:relative;
-      min-height: 62px;
+      min-height: 66px;
+      touch-action: manipulation;
     }
 
-    button{
+    button.big{
       appearance:none;
       border:none;
       cursor:pointer;
       font-family: inherit;
-      font-weight: 1000;
+      font-weight: 1200;
       letter-spacing: .2px;
       border-radius: 999px;
       padding: 14px 18px;
-      min-width: 124px;
+      min-width: 132px;
       box-shadow: 0 12px 0 rgba(0,0,0,0.08);
       transition: transform .18s var(--ease);
       user-select:none;
       position:relative;
-      border: 3px solid rgba(0,0,0,0.16);
+      border: 3px solid var(--stroke);
+      touch-action: manipulation;
     }
-    button:active{ transform: translateY(4px); box-shadow: 0 8px 0 rgba(0,0,0,0.08); }
+    button.big:active{ transform: translateY(4px); box-shadow: 0 8px 0 rgba(0,0,0,0.08); }
 
     .btnYes{
       background: linear-gradient(180deg, #ff79bd, #ff2f7d);
@@ -298,7 +389,7 @@
       background: linear-gradient(180deg, #fff, #fff2fb);
       color: rgba(0,0,0,0.78);
       position:absolute;
-      left: 142px;
+      left: 148px;
       top: 0;
     }
 
@@ -309,18 +400,24 @@
       margin-top: 12px;
     }
     .ghost{
+      appearance:none;
+      border: 3px solid var(--stroke);
+      border-radius: 999px;
       background: #fff7ff;
       color: rgba(0,0,0,0.78);
-      min-width:auto;
       padding: 12px 14px;
-      font-weight: 1000;
+      font-weight: 1200;
+      box-shadow: 0 10px 0 rgba(0,0,0,0.07);
+      cursor:pointer;
+      touch-action: manipulation;
     }
+    .ghost:active{ transform: translateY(3px); box-shadow: 0 7px 0 rgba(0,0,0,0.07); }
 
     .note{
       margin: 10px 0 0;
       font-size: 12.8px;
       color: rgba(0,0,0,0.62);
-      font-weight: 650;
+      font-weight: 750;
       line-height: 1.45;
     }
 
@@ -337,10 +434,10 @@
     .overlay.show{ display:flex; }
 
     .modal{
-      width:min(720px, 100%);
+      width:min(760px, 100%);
       background: #fff;
       border-radius: 28px;
-      border: 4px solid rgba(0,0,0,0.16);
+      border: 4px solid var(--stroke);
       box-shadow: 0 22px 0 rgba(0,0,0,0.10), 0 40px 90px rgba(0,0,0,0.25);
       overflow:hidden;
       position:relative;
@@ -357,29 +454,34 @@
     .modalHeader h3{
       margin:0;
       font-size: 22px;
-      font-weight: 1100;
+      font-weight: 1200;
     }
 
     .close{
-      background: #fff7ff;
-      color: rgba(0,0,0,0.8);
-      padding: 10px 12px;
       min-width:auto;
+      padding: 10px 12px;
+      font-weight: 1200;
+      border-radius: 999px;
+      border: 3px solid var(--stroke);
+      background: #fff7ff;
+      box-shadow: 0 10px 0 rgba(0,0,0,0.07);
+      cursor:pointer;
     }
+    .close:active{ transform: translateY(3px); box-shadow: 0 7px 0 rgba(0,0,0,0.07); }
 
     .modalBody{
       padding: 12px 16px 16px;
       color: rgba(0,0,0,0.78);
       line-height: 1.6;
       font-size: 15.2px;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .bigYes{
       margin: 8px 0 4px;
       font-size: clamp(34px, 5vw, 54px);
       line-height:1;
-      font-weight: 1200;
+      font-weight: 1300;
       color: transparent;
       background: linear-gradient(90deg, var(--rose), var(--purple), var(--pink));
       -webkit-background-clip: text;
@@ -405,6 +507,15 @@
       100%{ transform: translateY(110vh) rotate(360deg); opacity:0; }
     }
 
+    /* Footer */
+    .footer{
+      text-align:center;
+      margin-top: 14px;
+      color: rgba(0,0,0,0.58);
+      font-weight: 850;
+      font-size: 13px;
+    }
+
     @media (prefers-reduced-motion: reduce){
       *{ animation:none !important; transition:none !important; }
       canvas{ display:none; }
@@ -413,10 +524,16 @@
 </head>
 
 <body>
-  <div class="sticker s1" style="--rot:-12deg">💖</div>
-  <div class="sticker s2" style="--rot:10deg">💘</div>
-  <div class="sticker s3" style="--rot:8deg">✨</div>
-  <div class="sticker s4" style="--rot:-8deg">💝</div>
+  <div class="sticker s1" style="--r:-12deg">💖</div>
+  <div class="sticker s2" style="--r:10deg">💘</div>
+  <div class="sticker s3" style="--r:8deg">✨</div>
+  <div class="sticker s4" style="--r:-8deg">💝</div>
+
+  <!-- Banner appears if autoplay is blocked -->
+  <div class="topBanner" id="topBanner" role="button" aria-label="Tap to start music">
+    <div class="msg">Tap once to start the music 🎶 (phones block autoplay)</div>
+    <button id="startMusicBtn">Start</button>
+  </div>
 
   <canvas class="layer" id="heartsCanvas"></canvas>
   <canvas class="layer" id="sparkleCanvas"></canvas>
@@ -426,66 +543,127 @@
 
       <!-- LEFT -->
       <div class="card left">
-        <div class="badge"><span class="dot"></span> a little love note</div>
+        <div class="badge"><span class="dot"></span> a little love letter</div>
 
         <h1>Hey <span id="herName">Natasha</span>,</h1>
-        <p class="subtitle">
-          I made this for you because you deserve something cute, simple, and full of love.
+        <p class="subtitle" id="subLine">
+          I made this for you because you deserve something sweet, silly, and full of love.
         </p>
 
-        <div class="letterBox">
+        <div class="letterBox" aria-live="polite">
           <span id="typeTarget" class="type"></span>
         </div>
 
         <div class="divider"></div>
 
-        <p class="panelText" style="margin:0 0 10px;">
-          Your photos go here 💗
-        </p>
+        <h2 class="sectionTitle">A few things I adore about you 💗</h2>
+        <div class="miniGrid">
+          <div class="miniCard">
+            <div class="kicker">Your smile</div>
+            <p class="text">It does that thing where it makes everything feel okay.</p>
+          </div>
+          <div class="miniCard">
+            <div class="kicker">Your vibe</div>
+            <p class="text">Soft, strong, and beautiful — the kind you don’t forget.</p>
+          </div>
+          <div class="miniCard">
+            <div class="kicker">Your heart</div>
+            <p class="text">You care in a way that feels rare. I notice. Always.</p>
+          </div>
+          <div class="miniCard">
+            <div class="kicker">The way you are</div>
+            <p class="text">You’re the kind of person I’d choose on purpose.</p>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h2 class="sectionTitle">Little photo corner 📸</h2>
+        <p class="text" style="margin-bottom:10px;">(Your pictures are here — like cute polaroids.)</p>
 
         <div class="photos">
-          <!-- IMPORTANT: your files are .jpeg so the src is .jpeg -->
-          <div class="photo" style="--r:-1.5deg">
+          <div class="polaroid" style="--r:-1.5deg">
+            <div class="tape"></div>
             <img src="images/her1.jpeg" alt="Photo 1" onerror="this.style.display='none'">
-            <div class="label">us ✨</div>
+            <div class="cap">
+              <span>my favorite</span>
+              <span class="pill">us ✨</span>
+            </div>
           </div>
-          <div class="photo" style="--r:1.2deg">
+
+          <div class="polaroid" style="--r:1.2deg">
+            <div class="tape"></div>
             <img src="images/her2.jpeg" alt="Photo 2" onerror="this.style.display='none'">
-            <div class="label">smile 🫶</div>
+            <div class="cap">
+              <span>pretty girl</span>
+              <span class="pill">smile 🫶</span>
+            </div>
           </div>
-          <div class="photo" style="--r:-0.8deg">
+
+          <div class="polaroid" style="--r:-0.8deg">
+            <div class="tape"></div>
             <img src="images/her3.jpeg" alt="Photo 3" onerror="this.style.display='none'">
-            <div class="label">forever 💞</div>
+            <div class="cap">
+              <span>my peace</span>
+              <span class="pill">forever 💞</span>
+            </div>
           </div>
         </div>
 
         <p class="note">
-          umfazi wam 
+          If your images are named differently, update the <b>src</b> paths above.
+          (Your current ones are <b>.jpeg</b>, not .jpg.)
         </p>
+
+        <div class="footer">Made for Natasha Chipo Yolanda Hongoro 💘</div>
       </div>
 
       <!-- RIGHT -->
       <div class="card right">
         <div>
-          <h2 class="panelTitle">For the girl who makes my world softer…</h2>
-          <p class="panelText">
-            I don’t want a perfect day. I just want a day that has you in it.
+          <h2 class="sectionTitle">Today’s mood:</h2>
+          <p class="text">
+            I’m thinking about you. A lot. Like… a ridiculous amount.
           </p>
+
+          <div class="divider"></div>
+
+          <h2 class="sectionTitle">Tiny notes I’d tell you in person 📝</h2>
+          <div class="miniGrid">
+            <div class="miniCard">
+              <div class="kicker">Note #1</div>
+              <p class="text">You look good in every version of yourself.</p>
+            </div>
+            <div class="miniCard">
+              <div class="kicker">Note #2</div>
+              <p class="text">You’re not “too much.” You’re exactly enough.</p>
+            </div>
+            <div class="miniCard">
+              <div class="kicker">Note #3</div>
+              <p class="text">If I had to pick again, I’d still pick you.</p>
+            </div>
+            <div class="miniCard">
+              <div class="kicker">Note #4</div>
+              <p class="text">Being with you feels like home… but cuter.</p>
+            </div>
+          </div>
+
+          <div class="divider"></div>
 
           <div class="question">
             <h2>Will you be my Valentine? 💌</h2>
-            <p class="panelText" id="promptLine">
+            <p class="text" id="promptLine">
               (Pick the cute answer 😌💗)
             </p>
 
             <div class="buttons" id="btnArea">
-              <button class="btnYes" id="yesBtn">Yes 💖</button>
-              <button class="btnNo" id="noBtn">No 🙈</button>
+              <button class="big btnYes" id="yesBtn">Yes 💖</button>
+              <button class="big btnNo" id="noBtn">No 🙈</button>
             </div>
 
             <div class="smallActions">
               <button class="ghost" id="openLetterBtn">Open my letter ✍️</button>
-              <button class="ghost" id="musicBtn">Toggle music 🎶</button>
+              <button class="ghost" id="musicBtn">Music: on 🎶</button>
             </div>
 
             <p class="note" id="tinyNote">
@@ -495,7 +673,7 @@
         </div>
 
         <p class="note" style="margin:0;">
-          Made with love (and a little chaos) 💕
+          Built with love + extra kisses 💕
         </p>
       </div>
 
@@ -515,13 +693,16 @@
       </div>
 
       <div class="modalBody" id="modalBody">
-        <!-- Short & sweet letter (doesn't sound like AI) -->
         <p style="margin-top:0;">
           Natasha Chipo Yolanda Hongoro,
         </p>
         <p>
           I like you more than I can explain properly — so I made this instead.
           You make me feel calm, lucky, and stupidly happy.
+        </p>
+        <p>
+          I love your energy, your smile, and the way you carry yourself.
+          You’re genuinely special to me.
         </p>
         <p style="margin-bottom:0;">
           Be my Valentine? I’ll bring the kisses and the plans. 💗
@@ -530,8 +711,9 @@
     </div>
   </div>
 
-  <!-- Optional music: put music/love.mp3 -->
-  <audio id="bgm" loop>
+  <!-- MUSIC (always-on attempt) -->
+  <audio id="bgm" loop preload="auto" playsinline>
+    <!-- Put your file at: music/love.mp3 -->
     <source src="music/love.mp3" type="audio/mpeg" />
   </audio>
 
@@ -542,9 +724,11 @@
     const HER_NAME = "Natasha Chipo Yolanda Hongoro";
 
     const TYPEWRITER_LINES = [
-      "I’ve been smiling a lot lately…",
-      "and it’s honestly because of you.",
-      "So here it is, simple and real:",
+      "Natasha…",
+      "I’m not trying to be dramatic,",
+      "but you’ve been on my mind nonstop.",
+      "You make my days softer.",
+      "So I just want to ask you…",
       "Will you be my Valentine? 💘"
     ];
 
@@ -577,22 +761,17 @@
     const musicBtn = document.getElementById("musicBtn");
     const bgm = document.getElementById("bgm");
 
+    const topBanner = document.getElementById("topBanner");
+    const startMusicBtn = document.getElementById("startMusicBtn");
+
     herNameEl.textContent = HER_NAME;
 
     /* =========================
        TYPEWRITER
        ========================= */
-    async function typewriter(lines, el){
-      el.textContent = "";
-      for (const line of lines){
-        await typeLine(line, el);
-        await wait(700);
-        el.textContent = "";
-      }
-      await typeLine("Will you be my Valentine? 💘", el, true);
-    }
+    function wait(ms){ return new Promise(r => setTimeout(r, ms)); }
 
-    function typeLine(text, el, keep=false){
+    async function typeLine(text, el){
       return new Promise(resolve => {
         let i = 0;
         const speed = 28;
@@ -605,11 +784,78 @@
         }, speed);
       });
     }
-    function wait(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+    async function typewriter(lines, el){
+      el.textContent = "";
+      for (const line of lines){
+        await typeLine(line, el);
+        await wait(700);
+        el.textContent = "";
+      }
+      await typeLine("Will you be my Valentine? 💘", el);
+    }
+
     typewriter(TYPEWRITER_LINES, typeTarget);
 
     /* =========================
-       NO BUTTON DODGE
+       MUSIC: best-effort always-on
+       ========================= */
+    let musicOn = true;
+
+    async function tryStartMusic(){
+      try{
+        bgm.volume = 0.85;
+        await bgm.play();
+        topBanner.classList.remove("show");
+        musicBtn.textContent = "Music: on 🎶";
+        musicOn = true;
+        return true;
+      } catch (e){
+        // blocked by mobile autoplay policy
+        topBanner.classList.add("show");
+        musicBtn.textContent = "Music: tap to start 🎶";
+        musicOn = false;
+        return false;
+      }
+    }
+
+    // Attempt immediately
+    tryStartMusic();
+
+    // Start music on first interaction anywhere
+    function unlockAudioOnce(){
+      tryStartMusic();
+      window.removeEventListener("pointerdown", unlockAudioOnce);
+      window.removeEventListener("touchstart", unlockAudioOnce);
+      window.removeEventListener("click", unlockAudioOnce);
+    }
+    window.addEventListener("pointerdown", unlockAudioOnce, { once:false });
+    window.addEventListener("touchstart", unlockAudioOnce, { once:false, passive:true });
+    window.addEventListener("click", unlockAudioOnce, { once:false });
+
+    // Banner start button
+    startMusicBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      unlockAudioOnce();
+    });
+    topBanner.addEventListener("click", (e) => {
+      e.stopPropagation();
+      unlockAudioOnce();
+    });
+
+    // Music toggle
+    musicBtn.addEventListener("click", async () => {
+      if (musicOn){
+        bgm.pause();
+        musicOn = false;
+        musicBtn.textContent = "Music: off 🔇";
+      } else {
+        await tryStartMusic();
+      }
+    });
+
+    /* =========================
+       NO BUTTON DODGE (mobile-friendly)
        ========================= */
     let noIndex = 0;
     let noDodges = 0;
@@ -620,7 +866,7 @@
       const area = btnArea.getBoundingClientRect();
       const btn = noBtn.getBoundingClientRect();
 
-      if (area.height < 78) btnArea.style.minHeight = "92px";
+      if (area.height < 80) btnArea.style.minHeight = "100px";
 
       const pad = 6;
       const maxX = area.width - btn.width - pad;
@@ -639,7 +885,7 @@
       if (noDodges >= 4) tinyNote.textContent = "(This is basically the universe pushing you to Yes 😌💗)";
     }
 
-    noBtn.addEventListener("mouseenter", dodgeNoButton);
+    // Use touch + click (hover doesn't exist on mobile)
     noBtn.addEventListener("touchstart", (e) => { e.preventDefault(); dodgeNoButton(); }, {passive:false});
     noBtn.addEventListener("click", (e) => { e.preventDefault(); dodgeNoButton(); });
 
@@ -648,7 +894,7 @@
        ========================= */
     yesBtn.addEventListener("click", () => {
       overlay.classList.add("show");
-      launchConfettiHearts(54);
+      launchConfettiHearts(60);
       intensifyHearts(1.7);
     });
 
@@ -659,27 +905,7 @@
 
     openLetterBtn.addEventListener("click", () => {
       overlay.classList.add("show");
-      launchConfettiHearts(28);
-    });
-
-    /* =========================
-       MUSIC TOGGLE
-       ========================= */
-    let musicOn = false;
-    musicBtn.addEventListener("click", async () => {
-      try{
-        if (!musicOn){
-          await bgm.play();
-          musicOn = true;
-          musicBtn.textContent = "Music: on 🎶";
-        } else {
-          bgm.pause();
-          musicOn = false;
-          musicBtn.textContent = "Toggle music 🎶";
-        }
-      } catch(err){
-        musicBtn.textContent = "Tap again for music 🎶";
-      }
+      launchConfettiHearts(30);
     });
 
     /* =========================
@@ -809,14 +1035,16 @@
     }
     draw();
 
+    // Sparkles on tap
     window.addEventListener("pointerdown", (e) => {
       for (let i=0;i<10;i++) spawnSparkle(e.clientX + (Math.random()*14-7), e.clientY + (Math.random()*14-7));
     });
 
+    /* Make No button initial position nice on small screens */
     (function initNoPos(){
       const area = btnArea.getBoundingClientRect();
-      noBtn.style.left = area.width < 340 ? "0px" : "142px";
-      noBtn.style.top = area.width < 340 ? "62px" : "0px";
+      noBtn.style.left = area.width < 360 ? "0px" : "148px";
+      noBtn.style.top = area.width < 360 ? "66px" : "0px";
     })();
   </script>
 </body>
