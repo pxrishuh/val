@@ -1,0 +1,823 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>For Natasha 💘</title>
+
+  <style>
+    :root{
+      --bg1:#ffd1e8;
+      --bg2:#fff0c9;
+      --bg3:#c9f3ff;
+      --ink:#2b1b2b;
+      --pink:#ff4fa3;
+      --rose:#ff2f7d;
+      --purple:#7b3ff2;
+      --cream:#fff7ee;
+      --card:#ffffff;
+      --shadow: 0 18px 0 rgba(0,0,0,0.08), 0 28px 55px rgba(0,0,0,0.18);
+      --stroke: rgba(0,0,0,0.15);
+      --radius: 26px;
+      --ease: cubic-bezier(.2,.85,.2,1);
+      --font: ui-rounded, "Comic Sans MS", "Trebuchet MS", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: var(--font);
+      color: var(--ink);
+      overflow-x:hidden;
+      background:
+        radial-gradient(900px 700px at 15% 10%, rgba(255,79,163,0.35), transparent 55%),
+        radial-gradient(900px 700px at 85% 20%, rgba(123,63,242,0.20), transparent 60%),
+        radial-gradient(900px 700px at 50% 100%, rgba(0,180,255,0.18), transparent 60%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+    }
+
+    /* Cute doodle pattern overlay */
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      opacity:.14;
+      background-image:
+        radial-gradient(circle at 12px 12px, rgba(0,0,0,.12) 2px, transparent 2.2px),
+        radial-gradient(circle at 42px 32px, rgba(0,0,0,.08) 1.6px, transparent 1.8px);
+      background-size: 72px 72px;
+      z-index:0;
+    }
+
+    /* Floating sticker hearts in corners */
+    .sticker{
+      position: fixed;
+      z-index: 1;
+      filter: drop-shadow(0 12px 0 rgba(0,0,0,0.08)) drop-shadow(0 18px 30px rgba(0,0,0,0.18));
+      transform: rotate(-10deg);
+      animation: floaty 3.6s var(--ease) infinite;
+      user-select:none;
+      pointer-events:none;
+    }
+    .sticker.s1{ left: 18px; top: 16px; font-size: 42px; }
+    .sticker.s2{ right: 18px; top: 16px; font-size: 42px; transform: rotate(12deg); animation-delay: .4s; }
+    .sticker.s3{ left: 18px; bottom: 16px; font-size: 42px; transform: rotate(8deg); animation-delay: .8s; }
+    .sticker.s4{ right: 18px; bottom: 16px; font-size: 42px; transform: rotate(-8deg); animation-delay: 1.2s; }
+
+    @keyframes floaty{
+      0%,100%{ transform: translateY(0) rotate(var(--rot, -10deg)); }
+      50%{ transform: translateY(-8px) rotate(var(--rot, -10deg)); }
+    }
+
+    /* Canvas layers for hearts + sparkles */
+    .layer{
+      position:fixed; inset:0;
+      pointer-events:none;
+      z-index:2;
+    }
+
+    .wrap{
+      position:relative;
+      z-index:3;
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 28px 16px 52px;
+    }
+
+    .shell{
+      width:min(980px, 100%);
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+      align-items:stretch;
+    }
+
+    @media (max-width: 920px){
+      .shell{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      background: var(--card);
+      border: 3px solid rgba(0,0,0,0.16);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* Cartoony highlight stripe */
+    .card::after{
+      content:"";
+      position:absolute;
+      inset: -30% -20%;
+      background: linear-gradient(135deg, rgba(255,79,163,0.16), rgba(255,240,201,0.16), rgba(201,243,255,0.16));
+      transform: rotate(-10deg);
+      pointer-events:none;
+    }
+
+    .card > *{ position:relative; z-index:1; }
+
+    .left{ padding: 22px 22px 18px; }
+    .right{ padding: 18px; display:flex; flex-direction:column; gap: 12px; justify-content:space-between; }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 2px solid rgba(0,0,0,0.16);
+      background: #fff7ff;
+      width: fit-content;
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
+    .badge .dot{
+      width: 10px; height:10px; border-radius: 50%;
+      background: linear-gradient(180deg, var(--pink), var(--rose));
+      box-shadow: 0 0 0 3px rgba(255,79,163,0.15);
+    }
+
+    h1{
+      margin: 14px 0 10px;
+      font-size: clamp(34px, 4.2vw, 54px);
+      line-height: 1.03;
+      letter-spacing: -0.6px;
+    }
+
+    .subtitle{
+      margin: 0 0 14px;
+      font-size: 15.5px;
+      line-height: 1.5;
+      color: rgba(0,0,0,0.72);
+    }
+
+    .letterBox{
+      margin-top: 12px;
+      background: var(--cream);
+      border: 3px dashed rgba(0,0,0,0.18);
+      border-radius: 20px;
+      padding: 14px 14px;
+      box-shadow: 0 10px 0 rgba(0,0,0,0.07);
+    }
+    .type{
+      font-weight: 800;
+      font-size: 15px;
+      border-right: 2px solid rgba(0,0,0,0.35);
+      padding-right: 2px;
+      animation: caret 1.05s steps(1) infinite;
+    }
+    @keyframes caret{ 50%{ border-right-color: transparent; } }
+
+    .divider{
+      height: 3px;
+      margin: 16px 0;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(0,0,0,0.16) 0 16px,
+        transparent 16px 26px
+      );
+      border-radius: 999px;
+      opacity:.6;
+    }
+
+    .photos{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 520px){
+      .photos{ grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .photo{
+      aspect-ratio: 1 / 1;
+      border-radius: 18px;
+      overflow:hidden;
+      position:relative;
+      border: 3px solid rgba(0,0,0,0.16);
+      background: linear-gradient(180deg, #ffe6f3, #fff7ea);
+      box-shadow: 0 14px 0 rgba(0,0,0,0.07);
+      transform: rotate(var(--r, 0deg));
+      transition: transform .2s var(--ease);
+    }
+    .photo:hover{ transform: rotate(var(--r, 0deg)) translateY(-2px); }
+
+    .photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      opacity:1;
+    }
+
+    .photo .label{
+      position:absolute;
+      left: 10px;
+      bottom: 10px;
+      font-size: 12px;
+      font-weight: 900;
+      background: rgba(255,255,255,0.85);
+      border: 2px solid rgba(0,0,0,0.14);
+      padding: 6px 10px;
+      border-radius: 999px;
+      box-shadow: 0 8px 0 rgba(0,0,0,0.06);
+    }
+
+    .panelTitle{
+      margin: 0 0 8px;
+      font-size: 18px;
+      font-weight: 900;
+    }
+    .panelText{
+      margin:0;
+      color: rgba(0,0,0,0.72);
+      line-height: 1.5;
+      font-size: 14.5px;
+      font-weight: 650;
+    }
+
+    .question{
+      margin-top: 10px;
+      padding: 14px 14px;
+      border-radius: 22px;
+      border: 3px solid rgba(0,0,0,0.16);
+      background: #ffffff;
+      box-shadow: 0 16px 0 rgba(0,0,0,0.07);
+    }
+
+    .question h2{
+      margin: 0 0 10px;
+      font-size: clamp(22px, 2.5vw, 30px);
+      line-height: 1.1;
+      letter-spacing: -0.3px;
+    }
+
+    .buttons{
+      display:flex;
+      gap: 12px;
+      flex-wrap:wrap;
+      margin-top: 10px;
+      position:relative;
+      min-height: 62px;
+    }
+
+    button{
+      appearance:none;
+      border:none;
+      cursor:pointer;
+      font-family: inherit;
+      font-weight: 1000;
+      letter-spacing: .2px;
+      border-radius: 999px;
+      padding: 14px 18px;
+      min-width: 124px;
+      box-shadow: 0 12px 0 rgba(0,0,0,0.08);
+      transition: transform .18s var(--ease);
+      user-select:none;
+      position:relative;
+      border: 3px solid rgba(0,0,0,0.16);
+    }
+    button:active{ transform: translateY(4px); box-shadow: 0 8px 0 rgba(0,0,0,0.08); }
+
+    .btnYes{
+      background: linear-gradient(180deg, #ff79bd, #ff2f7d);
+      color:#fff;
+      transform-origin: center;
+      animation: wobble 2.8s var(--ease) infinite;
+    }
+    @keyframes wobble{
+      0%,100%{ transform: rotate(-1deg); }
+      50%{ transform: rotate(1deg); }
+    }
+
+    .btnNo{
+      background: linear-gradient(180deg, #fff, #fff2fb);
+      color: rgba(0,0,0,0.78);
+      position:absolute;
+      left: 142px;
+      top: 0;
+    }
+
+    .smallActions{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      margin-top: 12px;
+    }
+    .ghost{
+      background: #fff7ff;
+      color: rgba(0,0,0,0.78);
+      min-width:auto;
+      padding: 12px 14px;
+      font-weight: 1000;
+    }
+
+    .note{
+      margin: 10px 0 0;
+      font-size: 12.8px;
+      color: rgba(0,0,0,0.62);
+      font-weight: 650;
+      line-height: 1.45;
+    }
+
+    /* Overlay */
+    .overlay{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,0.45);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:50;
+      padding: 16px;
+    }
+    .overlay.show{ display:flex; }
+
+    .modal{
+      width:min(720px, 100%);
+      background: #fff;
+      border-radius: 28px;
+      border: 4px solid rgba(0,0,0,0.16);
+      box-shadow: 0 22px 0 rgba(0,0,0,0.10), 0 40px 90px rgba(0,0,0,0.25);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .modalHeader{
+      padding: 16px 16px 0;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap: 12px;
+    }
+
+    .modalHeader h3{
+      margin:0;
+      font-size: 22px;
+      font-weight: 1100;
+    }
+
+    .close{
+      background: #fff7ff;
+      color: rgba(0,0,0,0.8);
+      padding: 10px 12px;
+      min-width:auto;
+    }
+
+    .modalBody{
+      padding: 12px 16px 16px;
+      color: rgba(0,0,0,0.78);
+      line-height: 1.6;
+      font-size: 15.2px;
+      font-weight: 700;
+    }
+
+    .bigYes{
+      margin: 8px 0 4px;
+      font-size: clamp(34px, 5vw, 54px);
+      line-height:1;
+      font-weight: 1200;
+      color: transparent;
+      background: linear-gradient(90deg, var(--rose), var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      background-clip: text;
+      text-shadow: 0 10px 0 rgba(0,0,0,0.06);
+    }
+
+    .confetti{
+      position:absolute; inset:0;
+      pointer-events:none;
+      overflow:hidden;
+    }
+    .confetti i{
+      position:absolute;
+      font-style: normal;
+      animation: fall 1.9s linear forwards;
+      opacity: .95;
+      filter: drop-shadow(0 10px 0 rgba(0,0,0,0.08)) drop-shadow(0 18px 30px rgba(0,0,0,0.22));
+    }
+    @keyframes fall{
+      0%{ transform: translateY(-30px) rotate(0deg); opacity:0; }
+      10%{ opacity:1; }
+      100%{ transform: translateY(110vh) rotate(360deg); opacity:0; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{ animation:none !important; transition:none !important; }
+      canvas{ display:none; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sticker s1" style="--rot:-12deg">💖</div>
+  <div class="sticker s2" style="--rot:10deg">💘</div>
+  <div class="sticker s3" style="--rot:8deg">✨</div>
+  <div class="sticker s4" style="--rot:-8deg">💝</div>
+
+  <canvas class="layer" id="heartsCanvas"></canvas>
+  <canvas class="layer" id="sparkleCanvas"></canvas>
+
+  <main class="wrap">
+    <section class="shell">
+
+      <!-- LEFT -->
+      <div class="card left">
+        <div class="badge"><span class="dot"></span> a little love note</div>
+
+        <h1>Hey <span id="herName">Natasha</span>,</h1>
+        <p class="subtitle">
+          I made this for you because you deserve something cute, simple, and full of love.
+        </p>
+
+        <div class="letterBox">
+          <span id="typeTarget" class="type"></span>
+        </div>
+
+        <div class="divider"></div>
+
+        <p class="panelText" style="margin:0 0 10px;">
+          Your photos go here 💗
+        </p>
+
+        <div class="photos">
+          <!-- IMPORTANT: your files are .jpeg so the src is .jpeg -->
+          <div class="photo" style="--r:-1.5deg">
+            <img src="images/her1.jpeg" alt="Photo 1" onerror="this.style.display='none'">
+            <div class="label">us ✨</div>
+          </div>
+          <div class="photo" style="--r:1.2deg">
+            <img src="images/her2.jpeg" alt="Photo 2" onerror="this.style.display='none'">
+            <div class="label">smile 🫶</div>
+          </div>
+          <div class="photo" style="--r:-0.8deg">
+            <img src="images/her3.jpeg" alt="Photo 3" onerror="this.style.display='none'">
+            <div class="label">forever 💞</div>
+          </div>
+        </div>
+
+        <p class="note">
+          umfazi wam 
+        </p>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="card right">
+        <div>
+          <h2 class="panelTitle">For the girl who makes my world softer…</h2>
+          <p class="panelText">
+            I don’t want a perfect day. I just want a day that has you in it.
+          </p>
+
+          <div class="question">
+            <h2>Will you be my Valentine? 💌</h2>
+            <p class="panelText" id="promptLine">
+              (Pick the cute answer 😌💗)
+            </p>
+
+            <div class="buttons" id="btnArea">
+              <button class="btnYes" id="yesBtn">Yes 💖</button>
+              <button class="btnNo" id="noBtn">No 🙈</button>
+            </div>
+
+            <div class="smallActions">
+              <button class="ghost" id="openLetterBtn">Open my letter ✍️</button>
+              <button class="ghost" id="musicBtn">Toggle music 🎶</button>
+            </div>
+
+            <p class="note" id="tinyNote">
+              (If she tries “No”… it gets shy and runs away.)
+            </p>
+          </div>
+        </div>
+
+        <p class="note" style="margin:0;">
+          Made with love (and a little chaos) 💕
+        </p>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- YES overlay -->
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="confetti" id="confetti"></div>
+      <div class="modalHeader">
+        <div>
+          <h3 id="modalTitle">Yayyy 💞</h3>
+          <div class="bigYes">It’s a YES!</div>
+        </div>
+        <button class="close" id="closeOverlay">Close</button>
+      </div>
+
+      <div class="modalBody" id="modalBody">
+        <!-- Short & sweet letter (doesn't sound like AI) -->
+        <p style="margin-top:0;">
+          Natasha Chipo Yolanda Hongoro,
+        </p>
+        <p>
+          I like you more than I can explain properly — so I made this instead.
+          You make me feel calm, lucky, and stupidly happy.
+        </p>
+        <p style="margin-bottom:0;">
+          Be my Valentine? I’ll bring the kisses and the plans. 💗
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Optional music: put music/love.mp3 -->
+  <audio id="bgm" loop>
+    <source src="music/love.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script>
+    /* =========================
+       PERSONALIZE
+       ========================= */
+    const HER_NAME = "Natasha Chipo Yolanda Hongoro";
+
+    const TYPEWRITER_LINES = [
+      "I’ve been smiling a lot lately…",
+      "and it’s honestly because of you.",
+      "So here it is, simple and real:",
+      "Will you be my Valentine? 💘"
+    ];
+
+    const NO_BUTTON_LINES = [
+      "Eish… are you sure? 😳",
+      "That one hurts a little 🥺",
+      "Come on… just one Yes 💗",
+      "The No button is shy 😅",
+      "Okay okay… last try 😌",
+      "Pick the cute answer 😭💘"
+    ];
+
+    /* =========================
+       DOM
+       ========================= */
+    const herNameEl = document.getElementById("herName");
+    const typeTarget = document.getElementById("typeTarget");
+
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const btnArea = document.getElementById("btnArea");
+    const promptLine = document.getElementById("promptLine");
+    const tinyNote = document.getElementById("tinyNote");
+
+    const overlay = document.getElementById("overlay");
+    const closeOverlay = document.getElementById("closeOverlay");
+    const confetti = document.getElementById("confetti");
+
+    const openLetterBtn = document.getElementById("openLetterBtn");
+    const musicBtn = document.getElementById("musicBtn");
+    const bgm = document.getElementById("bgm");
+
+    herNameEl.textContent = HER_NAME;
+
+    /* =========================
+       TYPEWRITER
+       ========================= */
+    async function typewriter(lines, el){
+      el.textContent = "";
+      for (const line of lines){
+        await typeLine(line, el);
+        await wait(700);
+        el.textContent = "";
+      }
+      await typeLine("Will you be my Valentine? 💘", el, true);
+    }
+
+    function typeLine(text, el, keep=false){
+      return new Promise(resolve => {
+        let i = 0;
+        const speed = 28;
+        const t = setInterval(() => {
+          el.textContent = text.slice(0, i++);
+          if (i > text.length){
+            clearInterval(t);
+            resolve();
+          }
+        }, speed);
+      });
+    }
+    function wait(ms){ return new Promise(r => setTimeout(r, ms)); }
+    typewriter(TYPEWRITER_LINES, typeTarget);
+
+    /* =========================
+       NO BUTTON DODGE
+       ========================= */
+    let noIndex = 0;
+    let noDodges = 0;
+
+    function clamp(n,min,max){ return Math.max(min, Math.min(max,n)); }
+
+    function dodgeNoButton(){
+      const area = btnArea.getBoundingClientRect();
+      const btn = noBtn.getBoundingClientRect();
+
+      if (area.height < 78) btnArea.style.minHeight = "92px";
+
+      const pad = 6;
+      const maxX = area.width - btn.width - pad;
+      const maxY = area.height - btn.height - pad;
+
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      noBtn.style.left = `${clamp(x, pad, maxX)}px`;
+      noBtn.style.top  = `${clamp(y, pad, maxY)}px`;
+
+      noDodges++;
+      promptLine.textContent = NO_BUTTON_LINES[noIndex % NO_BUTTON_LINES.length];
+      noIndex++;
+
+      if (noDodges >= 4) tinyNote.textContent = "(This is basically the universe pushing you to Yes 😌💗)";
+    }
+
+    noBtn.addEventListener("mouseenter", dodgeNoButton);
+    noBtn.addEventListener("touchstart", (e) => { e.preventDefault(); dodgeNoButton(); }, {passive:false});
+    noBtn.addEventListener("click", (e) => { e.preventDefault(); dodgeNoButton(); });
+
+    /* =========================
+       YES OVERLAY
+       ========================= */
+    yesBtn.addEventListener("click", () => {
+      overlay.classList.add("show");
+      launchConfettiHearts(54);
+      intensifyHearts(1.7);
+    });
+
+    closeOverlay.addEventListener("click", () => overlay.classList.remove("show"));
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) overlay.classList.remove("show");
+    });
+
+    openLetterBtn.addEventListener("click", () => {
+      overlay.classList.add("show");
+      launchConfettiHearts(28);
+    });
+
+    /* =========================
+       MUSIC TOGGLE
+       ========================= */
+    let musicOn = false;
+    musicBtn.addEventListener("click", async () => {
+      try{
+        if (!musicOn){
+          await bgm.play();
+          musicOn = true;
+          musicBtn.textContent = "Music: on 🎶";
+        } else {
+          bgm.pause();
+          musicOn = false;
+          musicBtn.textContent = "Toggle music 🎶";
+        }
+      } catch(err){
+        musicBtn.textContent = "Tap again for music 🎶";
+      }
+    });
+
+    /* =========================
+       CONFETTI
+       ========================= */
+    function launchConfettiHearts(count){
+      confetti.innerHTML = "";
+      const hearts = ["💖","💘","💗","💞","💝","💕","✨"];
+      for (let i=0;i<count;i++){
+        const el = document.createElement("i");
+        el.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+        el.style.left = Math.random()*100 + "%";
+        el.style.top = (-10 - Math.random()*20) + "px";
+        el.style.fontSize = (16 + Math.random()*26) + "px";
+        el.style.animationDuration = (1.4 + Math.random()*1.4) + "s";
+        confetti.appendChild(el);
+      }
+    }
+
+    /* =========================
+       CANVAS HEARTS + SPARKLES
+       ========================= */
+    const heartsCanvas = document.getElementById("heartsCanvas");
+    const sparkleCanvas = document.getElementById("sparkleCanvas");
+    const hctx = heartsCanvas.getContext("2d");
+    const sctx = sparkleCanvas.getContext("2d");
+
+    let W, H, DPR;
+    function resize(){
+      DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      W = window.innerWidth;
+      H = window.innerHeight;
+
+      heartsCanvas.width = Math.floor(W * DPR);
+      heartsCanvas.height = Math.floor(H * DPR);
+      heartsCanvas.style.width = W + "px";
+      heartsCanvas.style.height = H + "px";
+      hctx.setTransform(DPR,0,0,DPR,0,0);
+
+      sparkleCanvas.width = Math.floor(W * DPR);
+      sparkleCanvas.height = Math.floor(H * DPR);
+      sparkleCanvas.style.width = W + "px";
+      sparkleCanvas.style.height = H + "px";
+      sctx.setTransform(DPR,0,0,DPR,0,0);
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    const heartGlyphs = ["💗","💖","💘","💕","💝","💞"];
+    const hearts = [];
+    const sparkles = [];
+    let heartRate = 1.0;
+    function intensifyHearts(mult){ heartRate = mult; }
+
+    function spawnHeart(){
+      hearts.push({
+        x: Math.random()*W,
+        y: H + 20,
+        s: 16 + Math.random()*18,
+        v: 0.55 + Math.random()*1.1,
+        drift: (Math.random()*2 - 1) * 0.55,
+        a: 0.65 + Math.random()*0.25,
+        rot: Math.random()*Math.PI*2,
+        rV: (Math.random()*2-1)*0.02,
+        g: heartGlyphs[Math.floor(Math.random()*heartGlyphs.length)]
+      });
+    }
+
+    function spawnSparkle(x, y){
+      sparkles.push({
+        x, y,
+        r: 1 + Math.random()*2.6,
+        a: 0.9,
+        v: 0.6 + Math.random()*1.1,
+        dx: (Math.random()*2-1)*0.9,
+        dy: (Math.random()*2-1)*0.9
+      });
+    }
+
+    function draw(){
+      requestAnimationFrame(draw);
+
+      hctx.clearRect(0,0,W,H);
+
+      const spawnCount = Math.random() < (0.22 * heartRate) ? 1 : 0;
+      for (let i=0;i<spawnCount;i++) spawnHeart();
+
+      for (let i=hearts.length-1;i>=0;i--){
+        const p = hearts[i];
+        p.y -= p.v;
+        p.x += p.drift;
+        p.rot += p.rV;
+
+        if (Math.random() < 0.07) spawnSparkle(p.x, p.y);
+
+        hctx.save();
+        hctx.globalAlpha = p.a;
+        hctx.translate(p.x, p.y);
+        hctx.rotate(p.rot);
+        hctx.font = `${p.s}px ${getComputedStyle(document.body).fontFamily}`;
+        hctx.textAlign = "center";
+        hctx.textBaseline = "middle";
+        hctx.fillText(p.g, 0, 0);
+        hctx.restore();
+
+        if (p.y < -40 || p.x < -60 || p.x > W+60) hearts.splice(i,1);
+      }
+
+      sctx.clearRect(0,0,W,H);
+      for (let i=sparkles.length-1;i>=0;i--){
+        const sp = sparkles[i];
+        sp.a -= 0.02;
+        sp.x += sp.dx * 0.4;
+        sp.y += sp.dy * 0.4;
+        sp.r += sp.v * 0.05;
+
+        sctx.save();
+        sctx.globalAlpha = Math.max(0, sp.a);
+        sctx.beginPath();
+        sctx.arc(sp.x, sp.y, sp.r, 0, Math.PI*2);
+        sctx.fillStyle = "rgba(255,255,255,1)";
+        sctx.fill();
+        sctx.restore();
+
+        if (sp.a <= 0) sparkles.splice(i,1);
+      }
+    }
+    draw();
+
+    window.addEventListener("pointerdown", (e) => {
+      for (let i=0;i<10;i++) spawnSparkle(e.clientX + (Math.random()*14-7), e.clientY + (Math.random()*14-7));
+    });
+
+    (function initNoPos(){
+      const area = btnArea.getBoundingClientRect();
+      noBtn.style.left = area.width < 340 ? "0px" : "142px";
+      noBtn.style.top = area.width < 340 ? "62px" : "0px";
+    })();
+  </script>
+</body>
+</html>
